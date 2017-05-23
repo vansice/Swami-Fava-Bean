@@ -1,0 +1,107 @@
+/* can answer transitions come in more slowly? */
+
+/*    1024px_wide_still.jpg   test image https://pbs.twimg.com/profile_images/71782025/mrDisco.JPG    */
+
+body {
+	background: #000;
+	background-image: url('1024px_wide_still.jpg');
+	background-repeat: no-repeat;
+	background-size: 66%;
+	background-position: right top;
+	font-family: 'Berkshire Swash', cursive;
+}
+
+/*------------------------------ supporting the image cycling ---------------------------------------*/
+
+/* Basic background image styling. */
+.background-image {
+    background-position: right top;
+	background-repeat: no-repeat;
+	background-size: 99%;
+}
+
+/* Styles for the alternating / transition effect. */
+.toggle-image {
+ 	position: absolute;
+	width: 100%;
+	top: 0;
+	right: 0;
+ 	height: 1024px;
+	transition: opacity 1s ease-in-out;
+}
+
+/* Styles for the specific images. */
+.first-image {
+	background-image: url('1024px_wide_1st.jpg');
+	z-index: -3;
+	opacity: 0;
+}
+
+.second-image {
+	background-image: url('1024px_wide_2nd.jpg');
+	z-index: -2;
+	opacity: 0;
+}
+
+.third-image {
+	background-image: url('1024px_wide_3rd.jpg');
+	z-index: -1;
+	opacity: 0;
+}
+/* layering opacities made transitions better */
+.first-image.show {
+	opacity: .5;
+}
+
+.second-image.show {
+	opacity: .8;
+}
+
+.third-image.show {
+	opacity: 1;
+}
+
+/*--------------------------- CSS for ID elements ------------------------------------------*/
+
+#text_box {
+  width: 70%;
+  font-size: 80%;
+  border-radius: none;
+  background-color: #fff;
+  text-align: right;
+  float: left;
+}
+
+#button, #text_box{
+  margin-top: 2%;
+}
+
+#button {
+	background-color: rgba(255, 255, 255, .9);
+	font-size: 95%;
+	width: 28%;
+	text-align: center;
+    float: right;
+	color: #888888;
+}
+
+#form {
+    width: 100%;
+	margin-top: 5%;
+}
+
+
+#opener, #answer, #middle{
+  width: 100%;
+  font-size: 100%;
+  color: #FFEDE0;
+  border-radius: none;
+  background-color: #000;
+  text-align: right;
+  margin-top: 5%;
+  vertical-align: right top;
+}
+
+#answer_tile{ /* AM I STILL USING THIS? ~font ok*/
+  color: #FFEDE0;  /* STOP here!*/
+}
