@@ -1,15 +1,5 @@
-// This needs bootstrap.
-
-// else stmt in astrologicalSign got broken, capitalizeReply undefined and function lowerCase(reply) doesn't work either
-// verbMaker? see bottom fadeIn/fadeOuts
-
-
-// best of all would be if cycling could wait until AFTER validator but before fortune
-// is currently still cycling without the class attached, so not visible but would be cleaner to just have it start & stop when I want.
-
-// maybe separate this into different js files once everything works...
-// sort this out w/ bootstrap
-// download latest jquery to have locally ~DONE
+// to do: have third option response if input anything other than alphabet
+// maybe separate into multiple files?
 
 $(document).ready(function () {
 
@@ -97,9 +87,9 @@ var vowelAdjectives = ["able", "abridged", "abrupt", "absolved", "absurd", "abus
 						"sultry", "sunbaked", "sunburned", "tinkling", "tiny", "tough", "tricky", "wasted", "watchful", "wavy", 
 						"wicked", "worthy", "zesty"]; //99 here	
 						
-	var noun1 = vowelNouns[Math.floor(Math.random() * 214)]; //these can ultimately go in a different file
+	var noun1 = vowelNouns[Math.floor(Math.random() * 214)];
 	var noun2 = moreConsonantNouns[Math.floor(Math.random() * 83)]; 
-	var noun3 = vowelNouns[Math.floor(Math.random() * 214)];  // and the nouns could be popped to not repeat
+	var noun3 = vowelNouns[Math.floor(Math.random() * 214)];
 	var noun4 = consonantNouns[Math.floor(Math.random() * 90)];
 	
 	var adj1 = vowelAdjectives[Math.floor(Math.random() * 190)]; 
@@ -115,13 +105,13 @@ var vowelAdjectives = ["able", "abridged", "abrupt", "absolved", "absurd", "abus
 	var allThree = startNext.concat(then);
 	
 	function fortune(){
-		document.getElementById("middle").innerHTML = allThree; // put all that into the element called "middle"
+		document.getElementById("middle").innerHTML = allThree;
 	}
 
 	var astrologicalSign = ["aries", "leo", "sagittarius", "taurus", "virgo", "capricorn", "gemini", "libra", 
 				  "aquarius", "cancer", "scorpio", "pisces"]; // 12 here
 
-	var insomma = ["Wouldn't it have been better <br> to stay in bed?",        //<br> works in here
+	var insomma = ["Wouldn't it have been better <br> to stay in bed?",
 				"If you can't run with the big dogs, stay on the porch.", "You may want to seek help.", 
 				"Be sure to include loved ones.", "Better luck tomorrow.", 
 				"If you lay down with dogs, you need to expect some fleas.", 
@@ -132,8 +122,8 @@ var vowelAdjectives = ["able", "abridged", "abrupt", "absolved", "absurd", "abus
 	function closing() {	
 				var string1 = insomma[Math.floor(Math.random() * 12)];
 				var string2 = " " +"<br>"+"<br>"+"I\'m tired now."+"<br>"+"Goodnight.";
-				var whole = string1.concat(string2); // try appending instead? -don't need to
-				document.getElementById("answer").innerHTML = whole;  // working now
+				var whole = string1.concat(string2);
+				document.getElementById("answer").innerHTML = whole;
 			}
 	
 	//______________  Cycling backgrounds here  _______________________//
@@ -153,97 +143,91 @@ var vowelAdjectives = ["able", "abridged", "abrupt", "absolved", "absurd", "abus
 			},1000);
 	}
 
-	function setToTransparent (){ // STOP work on this. says removeClass not a function, but setToTransparent is being called...
-		document.getElementById('topImages').style.opacity = 0; //WORKS! abrupt, though 
+	function setToTransparent (){
+		document.getElementById('topImages').style.opacity = 0; //WORKS! ending abrupt, though
 	}
 
 	//______________ This the validator section ______________________//
 
 				  
-	var reply = document.getElementById("text_box"); // this works in if
-	
-	/*          These two following functions dead.        */
-			
-	var capitalizeReply;   //is something broken in these 3 lines? b/c matchingReply working fine. JSHint oddly fine with this section.
-	function capitalizeFirstLetter(reply) { // when run here, capitalizeReply undefined, but this section has worked in an alert box
-		capitalizeReply = reply.charAt(0).toUpperCase() + reply.slice(1); // take the reply, convert index 0 to cap, add it to remainder of string
+	var reply = document.getElementById("text_box");
+
+	var capitalizeReply;
+	function capitalizeFirstLetter(reply) {
+		capitalizeReply = reply.charAt(0).toUpperCase() + reply.slice(1);
 		return capitalizeReply;
 	}                
 
-	var matchingReply;   // this variable working in if
-	function lowerCase(reply) { //but NOT this function, b/c "leo" works & "Leo" fails... BUT "leo" is returned from "Leo" entered in box, in else stmt
-		matchingReply = reply.toLowerCase(); // so this works part of the time, in validator's else
-		return matchingReply; // this part critical!
+	var matchingReply;
+	function lowerCase(reply) {
+		matchingReply = reply.toLowerCase();
+		return matchingReply;
 	}
 
-	function validator() {    // doesn't work to put all above inside this function...
+	function validator() {
 		reply = document.getElementById("text_box").value; 
-		matchingReply = reply.toLowerCase();			   // this is working to print to screen but NOT to check w/in array.
+		matchingReply = reply.toLowerCase();
 		validSign = ("I knew it!" + "<br>" + "Well, let's see what's" + "<br>" + "in your future..."); 
 
-		//what I want:
-		//nonValidSign = (capitalizeReply + "?" + "<br>" + "Well, if you say so..."+ "<br>"); //capitalizeReply undefined.
+		nonValidSign = (capitalizeFirstLetter(reply) + "?" + "<br>" + "Well, if you say so..."+ "<br>");
 
-		//what works:
-		other = (matchingReply + "?" + "<br>" + "<br>" + "Well, if you say so..."+ "<br>"); //working fine
-
-		if ( astrologicalSign.indexOf( reply ) > -1 ) {  // checking if response was in the array here, -1 is not found
-			document.getElementById("opener").innerHTML = validSign;  // only gives correct if input lowercase. :(
-		} else {   //else stmt got broken... because capitalizeReply undefined. but this IS checking if input is in array.
-			capitalizeReply = capitalizeFirstLetter(reply); //going nowhere
-			document.getElementById("opener").innerHTML = other; 
+		if ( astrologicalSign.indexOf(lowerCase(reply)) > -1 ) {
+			document.getElementById("opener").innerHTML = validSign;
+		} else {
+			capitalizeFirstLetter(reply);
+			document.getElementById("opener").innerHTML = nonValidSign;
 		}
 	}		
 
 		// ____________________ Happening on click __________________________ //
 
 	
-$('#text_box').focus(); //ok, getting this.
+$('#text_box').focus();
 
 $('form').one('submit', function () {
-	$('.form').fadeOut('700');  // This makes both the button and text box disappear after it's clicked.
+	$('.form').fadeOut('700');
 
 });
-$('form').one('submit', function () {cycleBackgrounds(); //makes them go.  .one says: run 1x.
-	setTimeout(function(){ setToTransparent(); }, 4000); // 4000 best I can do. longer exits sequence badly
+$('form').one('submit', function () {cycleBackgrounds();
+	setTimeout(function(){ setToTransparent(); }, 4000);
 });
 
 $('form').on('submit', function (e) {
-	e.preventDefault();		// prevents a call to a server I don't need...
+	e.preventDefault();
 			
 	if ($('#text_box').val()) {  
 		makeValidator(validator); 
 		makeMiddle(fortune);
 		makeAnswer(closing); 
 	} else { 
-		makeAnswer('...or we can just take a nap. Up to you.');  //If nothing entered but button clicked, works!
+		makeAnswer('...or we can just take a nap. Up to you.');
 	}
 });
 
-		// ____________________ delays & placement in divs ~can these be tightened? __________________________ //
+		// ____________________ delays & placement in divs __________________________ //
 
-	function makeValidator(verbMaker) { //DON'T TOUCH. Is the fading out and in bit. 
+	function makeValidator(verbMaker) {
 		$('#opener').hide( function () {
-			$('#opener').text(verbMaker); //don't know that verbMaker is getting anything done in here, taking it out breaks answer entirely.
+			$('#opener').text(verbMaker);
 			setTimeout(function	() {
-				$('#opener').fadeIn('fast'); //fade it in at this rate? changing doesn't affect...
-			}, 4000); //this timing right after cycling stops
+				$('#opener').fadeIn('fast');
+			}, 4000);
 		});
 	}	
-	function makeMiddle(verbMaker) { //DON'T TOUCH. Is the fading out and in bit. 
+	function makeMiddle(verbMaker) {
 		$('#middle').hide( function () {
-			$('#middle').text(verbMaker); //this was/is? the source of the trouble: commenting out makes timing right, but loses text entirely
+			$('#middle').text(verbMaker);
 			setTimeout(function	() {
-				$('#middle').fadeIn('2500'); //not sure I'm accomplishing anything with this here
+				$('#middle').fadeIn('2500');
 			}, 6000); //after allowing validator 2 seconds to be read
 		});
 	}	
-	function makeAnswer(verbMaker) { //DON'T TOUCH. Is the fading out and in bit. 
+	function makeAnswer(verbMaker) {
 		$('#answer').hide( function () {
-			$('#answer').text(verbMaker); //don't know that verbMaker is getting anything done in here, taking it out breaks answer entirely.
+			$('#answer').text(verbMaker);
 			setTimeout(function	() {
-				$('#answer').fadeIn('5000'); //not sure I'm accomplishing anything with this here
-			}, 11500); //giving extra time to read odd combinations in fortune before showing closer
+				$('#answer').fadeIn('5000');
+			}, 11500); //giving extra time to read fortune before showing closer
 		});
 	}
 });
